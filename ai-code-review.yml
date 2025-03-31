@@ -1,6 +1,10 @@
 name: AI Code Review
 
 on:
+  push:
+    branches:
+      - main
+      - dev   # Add other branches if needed
   pull_request:
     types: [opened, synchronize]
 
@@ -11,17 +15,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set Up Node.js
-        uses: actions/setup-node@v18
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: '18'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install @octokit/core openai dotenv
 
       - name: Run AI Code Reviewer
         run: node src/ai-reviewer.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          NODE_ENV: production
+
