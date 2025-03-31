@@ -1,12 +1,15 @@
 name: AI Code Review
 
 on:
-  push:
+  push:  # Runs on every push to the repository
     branches:
       - main
-      - dev   # Add other branches if needed
-  pull_request:
-    types: [opened, synchronize]
+      - dev  # Add other branches as needed
+
+  pull_request:  # Runs when a PR is opened or updated
+    types:
+      - opened
+      - synchronize
 
 jobs:
   review:
@@ -21,11 +24,12 @@ jobs:
           node-version: '18'
 
       - name: Install Dependencies
-        run: npm install @octokit/core openai dotenv
+        run: npm install
 
       - name: Run AI Code Reviewer
         run: node src/ai-reviewer.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_
+
 
